@@ -29,7 +29,7 @@ abstract class Extension implements ExtensionInterface
         $this->registerFunctions($engine);
         $this->registerAliases($engine);
         if (!empty($this->aliases)) {
-            $this->autoregisterAliases($engine);
+            $this->registerAddedAliases($engine);
         }
     }
 
@@ -76,7 +76,7 @@ abstract class Extension implements ExtensionInterface
         $this->aliases[$alias] = $name;
     }
 
-    private function autoregisterAliases(Engine $engine)
+    private function registerAddedAliases(Engine $engine)
     {
         foreach ($this->aliases as $alias => $name) {
             $this->registerAlias($engine, $alias, $name, true);
