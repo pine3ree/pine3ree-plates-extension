@@ -29,7 +29,7 @@ abstract class Extension implements ExtensionInterface
         $this->registerFunctions($engine);
         $this->registerAliases($engine);
         if (!empty($this->aliases)) {
-            $this->registerFunctionAliases($engine);
+            $this->autoregisterAliases($engine);
         }
     }
 
@@ -49,6 +49,14 @@ abstract class Extension implements ExtensionInterface
         // no-op by default, override to set aliases
     }
 
+    /**
+     * Register a function alias for given function name with the plates engine
+     *
+     * @param Engine $engine The plates engine
+     * @param string $alias The desired function alias. Must not be already used as a function name,
+     * @param string $name The name of a registered function (existence check can be skipped if not needed)
+     * @param bool $check Check that the aliased function is registered?
+     */
     protected function registerAlias(Engine $engine, string $alias, string $name, bool $check = false)
     {
         if ($check === false || $engine->doesFunctionExist($name)) {
@@ -63,12 +71,12 @@ abstract class Extension implements ExtensionInterface
      * @param string $alias The function alias
      * @param string $name The template function name
      */
-    public function addFunctionAlias(string $alias, string $name)
+    public function addAlias(string $alias, string $name)
     {
         $this->aliases[$alias] = $name;
     }
 
-    private function registerFunctionAliases(Engine $engine)
+    private function autoregisterAliases(Engine $engine)
     {
         foreach ($this->aliases as $alias => $name) {
             $this->registerAlias($engine, $alias, $name, true);
@@ -76,7 +84,7 @@ abstract class Extension implements ExtensionInterface
     }
 
     /**
-     * Register a public method as template function with same or different name
+     * Register a public method as a plates template function with same or different name
      *
      * @param Engine $engine The plates engine
      * @param string $method The name of the method to register
