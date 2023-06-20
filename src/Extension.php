@@ -15,7 +15,10 @@ abstract class Extension implements ExtensionInterface
 {
 
     /**
-     * Aliases for registered functions
+     * Template function aliases
+     *
+     * These can be added outside the extension by calling self::addAlias($alias, $name)
+     * before the extensions is registered with the plates engine
      *
      * @var array<string, string>
      */
