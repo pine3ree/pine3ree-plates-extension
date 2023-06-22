@@ -10,10 +10,8 @@ namespace P3\Plates;
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
 
-
 abstract class Extension implements ExtensionInterface
 {
-
     /**
      * Template function aliases
      *
