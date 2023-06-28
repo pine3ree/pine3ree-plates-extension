@@ -23,7 +23,18 @@ abstract class Extension implements ExtensionInterface
     protected array $aliases = [];
 
     /**
-     * Register html-helper functions with the Plates engine.
+     * Calls:
+     *
+     * - <code>$this->registerFunctions(Engine $engine)</code>
+     * - <code>$this->registerAliases(Engine $engine)</code>
+     * - <code>$this->registerAddedAliases(Engine $engine)</code>
+     *
+     * in order to register function, own methods as template functions and aliases
+     *
+     * If you override this method, make sure you call the parent method or
+     * customize the way the internal registration functions are called
+     *
+     * {@inheritDoc}
      */
     public function register(Engine $engine)
     {
@@ -34,13 +45,21 @@ abstract class Extension implements ExtensionInterface
         }
     }
 
+    /**
+     * Register your functions here by calling:
+     *
+     * - <code>$engine->registerFunction($name, $callback)</code>
+     * - <code>$this->registerOwnFunction($engine, 'methodName')</code>
+     * - <code>$this->registerOwnFunction($engine, 'methodName', 'funcName')</code>
+     *
+     */
     abstract protected function registerFunctions(Engine $engine);
 
     /**
-     * Register your aliases internally here!
+     * Register your aliases here by calling the following function for each alias:
      *
      * <code>
-     * $this->registerAlias($engine, 'myAlias', 'soonToBeRegisteredFunctionName');
+     * $this->registerAlias($engine, 'myAlias', 'registeredFunctionName');
      * </code>
      *
      * @param Engine $engine
@@ -66,11 +85,11 @@ abstract class Extension implements ExtensionInterface
     }
 
     /**
-     * Add a function alias form external code before the extension is registered
-     * with the plates engine
+     * Allows to add a function alias from external code before the extension is
+     * registered with the plates engine
      *
      * @param string $alias The function alias
-     * @param string $name The template function name
+     * @param string $name The target template function name
      */
     public function addAlias(string $alias, string $name)
     {
