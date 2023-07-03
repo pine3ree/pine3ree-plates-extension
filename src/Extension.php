@@ -9,9 +9,12 @@ namespace P3\Plates;
 
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
+use League\Plates\Template\Template;
 
 abstract class Extension implements ExtensionInterface
 {
+    public ?Template $template = null;
+
     /**
      * Template function aliases
      *
