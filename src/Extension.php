@@ -10,6 +10,11 @@ namespace P3\Plates;
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Template;
+use ReflectionMethod;
+
+use function array_combine;
+use function array_diff_key;
+use function get_class_methods;
 
 abstract class Extension implements ExtensionInterface
 {
@@ -55,8 +60,37 @@ abstract class Extension implements ExtensionInterface
      * - <code>$this->registerOwnFunction($engine, 'methodName')</code>
      * - <code>$this->registerOwnFunction($engine, 'methodName', 'funcName')</code>
      *
+     * or let the default implementation register all public methods not defined
+     * in the base abstract class and excluding magic methods
      */
-    abstract protected function registerFunctions(Engine $engine);
+    protected function registerFunctions(Engine $engine)
+    {
+        $base_methods = get_class_methods(self::class);
+        $base_methods = array_combine($base_methods, $base_methods);
+
+        $this_methods = get_class_methods($this);
+        $this_methods = array_combine($this_methods, $this_methods);
+
+        $methods = array_diff_key($this_methods, $base_methods);
+
+        // Remove magic methods, just in case
+        unset(
+            $methods['__construct'],
+            $methods['__destruct'],
+            $methods['__get'],
+            $methods['__set'],
+            $methods['__isset'],
+            $methods['__clone'],
+            $methods['__toString'],
+        );
+
+        foreach ($methods as $method) {
+            $rm = new ReflectionMethod($this, $method);
+            if ($rm->isPublic()) {
+                $this->registerOwnFunction($engine, $method);
+            }
+        }
+    }
 
     /**
      * Register your aliases here by calling the following function for each alias:
