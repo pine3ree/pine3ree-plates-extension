@@ -67,5 +67,4 @@ final class ExtensionTest extends TestCase
         self::assertTrue($this->engine->doesFunctionExist('public'));
         self::assertTrue($this->engine->doesFunctionExist('else'));
     }
-
 }
