@@ -31,7 +31,7 @@ class DummyExtension extends Extension implements ExtensionInterface
             $this->registerAlias($engine, 'public', 'somethingPublic');
             $this->registerAlias($engine, 'else',   'somethingElse');
         } catch (Throwable $ex) {
-            // no-aop
+            // no-op
         }
     }
 
