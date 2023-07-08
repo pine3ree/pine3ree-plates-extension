@@ -15,8 +15,8 @@ use pine3ree\test\Plates\Asset\DummyExtension;
 final class ExtensionTest extends TestCase
 {
     private Engine $engine;
-    private Template $template;
     private DummyExtension $extension;
+    private Template $template;
 
     protected function setUp(): void
     {
