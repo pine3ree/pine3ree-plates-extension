@@ -18,12 +18,16 @@ use function get_class_methods;
 
 abstract class Extension implements ExtensionInterface
 {
+    /** Assigned on registered function calls */
     public ?Template $template = null;
 
     /**
      * Template function aliases
      *
-     * These can be added outside the extension by calling self::addAlias($alias, $name)
+     * These can be added outside the extension by calling:
+     * <code>
+     * self::addAlias($alias, $name)
+     * </code>
      * before the extensions is registered with the plates engine
      *
      * @var array<string, string>
@@ -99,6 +103,12 @@ abstract class Extension implements ExtensionInterface
      * $this->registerAlias($engine, 'myAlias', 'registeredFunctionName');
      * </code>
      *
+     * Note:
+     *
+     * For each registered alias a <code>@method<code> entry should be added to
+     * the extension class main php-doc block in order to achieve full ide
+     * autocompletion inside template files
+     *
      * @param Engine $engine
      */
     protected function registerAliases(Engine $engine)
@@ -107,7 +117,7 @@ abstract class Extension implements ExtensionInterface
     }
 
     /**
-     * Register a function alias for given function name with the plates engine
+     * Registers a function alias for given function name with the plates engine
      *
      * @param Engine $engine The plates engine
      * @param string $alias The desired function alias. Must not be already used as a function name,
@@ -122,8 +132,15 @@ abstract class Extension implements ExtensionInterface
     }
 
     /**
-     * Allows to add a function alias from external code before the extension is
-     * registered with the plates engine
+     * Allows to add a function alias from external code but before the extension
+     * is registered with the plates engine
+     *
+     * Note:
+     * When this method is called the function with name <code>$name</code>
+     * is not already registered yet. It will be when the extension is registered
+     * whit the template engine. Calling this method after the extension is
+     * registered has no effect as all the extra aliases are examined and
+     * registered when the moment the extension is registered.
      *
      * @param string $alias The function alias
      * @param string $name The target template function name
@@ -141,7 +158,7 @@ abstract class Extension implements ExtensionInterface
     }
 
     /**
-     * Register a public method as a plates template function with same or different name
+     * Registers a public method as a plates template function with same or different name
      *
      * @param Engine $engine The plates engine
      * @param string $method The name of the method to register
