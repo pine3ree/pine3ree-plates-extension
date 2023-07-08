@@ -75,6 +75,7 @@ abstract class Extension implements ExtensionInterface
      */
     protected function registerFunctions(Engine $engine): void
     {
+        // no-op by default, override to manually register template functions
     }
 
     protected function autoregisterPublicMethods(Engine $engine): void
