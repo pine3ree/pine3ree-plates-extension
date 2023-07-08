@@ -8,6 +8,7 @@ use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
 use P3\Plates\Extension;
 use stdClass;
+use Throwable;
 
 /**
  * Class DummyExtension
@@ -21,8 +22,12 @@ class DummyExtension extends Extension implements ExtensionInterface
 
     protected function registerAliases(Engine $engine): void
     {
-        $this->registerAlias($engine, 'public', 'somethingPublic');
-        $this->registerAlias($engine, 'else', 'somethingElse');
+        try {
+            $this->registerAlias($engine, 'public', 'somethingPublic');
+            $this->registerAlias($engine, 'else',   'somethingElse');
+        } catch (Throwable $ex) {
+            // no-aop
+        }
     }
 
     public function somethingPublic(): string
