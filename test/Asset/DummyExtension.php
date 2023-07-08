@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace P3\Test\Plates\Asset;
+namespace pine3ree\test\Plates\Asset;
 
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
-use P3\Plates\Extension;
+use pine3ree\Plates\Extension;
 use stdClass;
 use Throwable;
 
-/**
- * Class DummyExtension
- */
 class DummyExtension extends Extension implements ExtensionInterface
 {
     public const SOMETHING_PUBLIC    = 'somethingPublic';

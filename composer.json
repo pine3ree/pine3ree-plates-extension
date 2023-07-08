@@ -24,8 +24,8 @@
         "source": "https://github.com/pine3ree/p3-plates-extension"
     },
     "config": {
-        "sort-packages": false,
-        "optimize-autoloader": true,
+        "sort-packages": true,
+        "optimize-autoloader": false,
         "prefer-stable": true,
         "minimum-stability": "dev"
     },
@@ -49,14 +49,14 @@
     },
     "autoload": {
         "psr-4": {
-            "P3\\Plates\\": "src/"
+            "pine3ree\\Plates\\": "src/"
         },
         "files": [
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "P3\\Test\\Plates\\": "test/"
+            "pine3ree\\test\\Plates\\": "test/"
         }
     },
     "scripts": {

@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace P3\Test\Plates;
-
-use PHPUnit\Framework\TestCase;
+namespace pine3ree\test\Plates;
 
 use League\Plates\Engine;
 use League\Plates\Template\Func;
 use League\Plates\Template\Template;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
-use P3\Test\Plates\Asset\DummyExtension;
+use PHPUnit\Framework\TestCase;
+use pine3ree\test\Plates\Asset\DummyExtension;
 
 final class ExtensionTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package P3\Plates\Extension
+ * @package pine3ree\Plates\Extension
  * @author  pine3ree https://github.com/pine3ree
  */
 
-namespace P3\Plates;
+namespace pine3ree\Plates;
 
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
