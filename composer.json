@@ -1,0 +1,85 @@
+{
+    "name": "pine3ree/p3-plates-extension",
+    "description": "A common base abstract Plates extension with methods auto-registration and more",
+    "type": "library",
+    "keywords": [
+        "pine3ree",
+        "plates",
+        "template",
+        "extension"
+    ],
+    "homepage": "https://github.com/pine3ree/p3-plates-extension",
+    "readme": "README.md",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "pine3ree",
+            "homepage": "https://github.com/pine3ree",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "docs": "https://github.com/pine3ree/p3-plates-extension/README.md",
+        "issues": "https://github.com/pine3ree/p3-plates-extension/issues",
+        "source": "https://github.com/pine3ree/p3-plates-extension"
+    },
+    "config": {
+        "sort-packages": false,
+        "optimize-autoloader": true,
+        "prefer-stable": true,
+        "minimum-stability": "dev"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "require": {
+        "league/plates": "^3.5",
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-strict-rules": "*",
+        "phpunit/phpunit": "^7.5 || ^8.0 || ^9.0",
+        "phpspec/prophecy-phpunit": "^1.1 || ^2.0",
+        "squizlabs/php_codesniffer": "^3.5.7",
+        "webimpress/coding-standard": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "P3\\Plates\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "P3\\Tests\\Plates\\Extension\\": "test/"
+        }
+    },
+    "scripts": {
+        "cs": "@phpcs",
+        "cbf": "@phpcbf",
+        "stan": "@phpstan",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpstan": "phpstan analyze -l max -c phpstan.neon ./src",
+        "test": "phpunit --colors=always",
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "coverage-html": "phpunit --colors=always --coverage-html coverage/html",
+        "coverage-xml": "phpunit --colors=always --coverage-xml coverage/xml",
+        "coverage-clover": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-coverage": [
+            "@coverage-html",
+            "@coverage-xml",
+            "@coverage-clover"
+        ]
+    },
+    "_removed": {
+        "minimum-stability": "dev"
+    }
+}
