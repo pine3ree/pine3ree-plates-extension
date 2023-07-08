@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use League\Plates\Engine;
 use League\Plates\Template\Func;
 use League\Plates\Template\Template;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
 use P3\Test\Plates\Asset\DummyExtension;
 
@@ -24,10 +25,10 @@ final class ExtensionTest extends TestCase
 
         vfsStream::setup('templates');
 
-        $this->engine = new Engine(vfsStream::url('templates'));
+        $this->engine    = new Engine(vfsStream::url('templates'));
         $this->extension = new DummyExtension();
         $this->extension->register($this->engine);
-        $this->template = new Template($this->engine, 'template');
+        $this->template  = new Template($this->engine, 'template');
     }
 
     public function testThatPublicMethodsAreAutomaticallyRegistered(): void
@@ -91,5 +92,22 @@ final class ExtensionTest extends TestCase
     {
         self::assertSame(DummyExtension::SOMETHING_PUBLIC, $this->template->somethingPublic());
         self::assertSame(DummyExtension::SOMETHING_ELSE,   $this->template->somethingElse());
+    }
+
+    public function testThatPublicMethodsAreNotRegisteredIfFlagIsSetToFalse(): void
+    {
+        $engine    = new Engine(vfsStream::url('templates'));
+        $extension = new DummyExtension(false);
+        $extension->register($engine);
+        $template  = new Template($engine, 'template');
+
+        self::assertFalse($engine->doesFunctionExist('somethingProtected'));
+        self::assertFalse($engine->doesFunctionExist('somethingPrivate'));
+
+        $this->expectException(LogicException::class);
+        $template->somethingPublic();
+
+        $this->expectException(LogicException::class);
+        $template->somethingElse();
     }
 }
