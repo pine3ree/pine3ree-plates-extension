@@ -50,6 +50,8 @@ abstract class Extension implements ExtensionInterface
      * customize the way the internal registration functions are called
      *
      * {@inheritDoc}
+     *
+     * @return void
      */
     public function register(Engine $engine)
     {
