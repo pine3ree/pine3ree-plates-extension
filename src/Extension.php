@@ -18,6 +18,14 @@ use function array_combine;
 use function array_diff_key;
 use function get_class_methods;
 
+/**
+ * This base abstract extension class provides:
+ *
+ * - autoregistration of public methods (feature that can be disabled via constructor assignment)
+ * - the ability to manually register public methods with shorter syntax
+ * - the ability to add function aliases on extension registration
+ * - the ability to add function aliases before extension registration happens
+ */
 abstract class Extension implements ExtensionInterface
 {
     /** Assigned on registered function calls */
@@ -95,6 +103,7 @@ abstract class Extension implements ExtensionInterface
             '__debugInfo'   => true,
         ];
 
+        /** @var array<int, string> $methods */
         $methods = array_diff_key($this_methods, $base_methods, $magic_methods);
 
         foreach ($methods as $method) {
@@ -136,6 +145,7 @@ abstract class Extension implements ExtensionInterface
      * autocompletion inside template files
      *
      * @param Engine $engine
+     * @psalm-suppress PossiblyUnusedParam
      */
     protected function registerAliases(Engine $engine): void
     {
@@ -192,9 +202,9 @@ abstract class Extension implements ExtensionInterface
      *
      * @param Engine $engine The plates engine
      * @param string $method The name of the method to register
-     * @param string $name The name of the template function if different from the method name
+     * @param string|null $name The name of the template function, if different from the original method name
      */
-    protected function registerOwnFunction(Engine $engine, string $method, string $name = null): void
+    protected function registerOwnFunction(Engine $engine, string $method, ?string $name = null): void
     {
         $engine->registerFunction($name ?? $method, [$this, $method]);
     }
