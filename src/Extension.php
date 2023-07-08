@@ -69,6 +69,11 @@ abstract class Extension implements ExtensionInterface
      */
     protected function registerFunctions(Engine $engine)
     {
+        $this->autoregisterPublicMethods($engine);
+    }
+
+    protected function autoregisterPublicMethods(Engine $engine)
+    {
         $base_methods = get_class_methods(self::class);
         $base_methods = array_combine($base_methods, $base_methods);
 
