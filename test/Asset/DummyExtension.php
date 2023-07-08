@@ -20,6 +20,11 @@ class DummyExtension extends Extension implements ExtensionInterface
     public const SOMETHING_PROTECTED = 'somethingProtected';
     public const SOMETHING_PRIVATE   = 'somethingPrivate';
 
+    protected function registerFunctions(Engine $engine): void
+    {
+        $this->registerOwnFunction($engine, 'foo', 'bar');
+    }
+
     protected function registerAliases(Engine $engine): void
     {
         try {
@@ -28,6 +33,11 @@ class DummyExtension extends Extension implements ExtensionInterface
         } catch (Throwable $ex) {
             // no-aop
         }
+    }
+
+    public function __construct(bool $autoregisterPublicMethods = true)
+    {
+        $this->autoregisterPublicMethods = $autoregisterPublicMethods;
     }
 
     public function somethingPublic(): string
@@ -50,9 +60,9 @@ class DummyExtension extends Extension implements ExtensionInterface
         return self::SOMETHING_PRIVATE;
     }
 
-    public function __construct(bool $autoregisterPublicMethods = true)
+    public function foo(): string
     {
-        $this->autoregisterPublicMethods = $autoregisterPublicMethods;
+        return 'foo';
     }
 
     public function __destruct()

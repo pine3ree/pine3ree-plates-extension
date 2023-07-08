@@ -94,6 +94,12 @@ final class ExtensionTest extends TestCase
         self::assertSame(DummyExtension::SOMETHING_ELSE,   $this->template->somethingElse());
     }
 
+    public function testThatRegisterOwnFunctionAddsTheAliasIfSet(): void
+    {
+        self::assertTrue($this->engine->doesFunctionExist('bar'));
+        self::assertSame($this->template->foo(), $this->template->bar());
+    }
+
     public function testThatPublicMethodsAreNotRegisteredIfFlagIsSetToFalse(): void
     {
         $engine    = new Engine(vfsStream::url('templates'));
@@ -109,5 +115,24 @@ final class ExtensionTest extends TestCase
 
         $this->expectException(LogicException::class);
         $template->somethingElse();
+    }
+
+    public function testThatExtraAliaseCanBeAddedOnlyBeforeExtensionRegistration(): void
+    {
+        $engine    = new Engine(vfsStream::url('templates'));
+        $extension = new DummyExtension(true);
+        $extension->addAlias('baz', 'foo');
+        $extension->register($engine);
+        $extension->addAlias('bat', 'foo');
+
+        $template  = new Template($engine, 'template');
+
+        self::assertTrue($engine->doesFunctionExist('baz'));
+        self::assertFalse($engine->doesFunctionExist('bat'));
+
+        self::assertSame($template->foo(), $template->baz());
+
+        $this->expectException(LogicException::class);
+        $template->bat();
     }
 }
