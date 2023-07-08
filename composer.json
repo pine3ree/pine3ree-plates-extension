@@ -55,7 +55,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "P3\\Tests\\Plates\\Extension\\": "test/"
+            "P3\\Test\\Plates\\": "test/"
         }
     },
     "scripts": {
