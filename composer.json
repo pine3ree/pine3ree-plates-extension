@@ -63,7 +63,7 @@
     "scripts": {
         "check-cs": "phpcs",
         "fix-cs": "phpcbf",
-        "phpstan": "phpstan analyze -l max -c phpstan.neon ./src",
+        "phpstan": "phpstan analyze -c phpstan.neon",
         "psalm": "psalm --shepherd --stats",
         "static-analysis": [
             "@phpstan",

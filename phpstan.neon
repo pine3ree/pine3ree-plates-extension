@@ -1,4 +1,7 @@
 parameters:
+    level: 9
+    paths:
+        - src
     fileExtensions:
         - php
     checkGenericClassInNonGenericObjectType: false
