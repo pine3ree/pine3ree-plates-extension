@@ -63,6 +63,44 @@ abstract class Extension implements ExtensionInterface
         }
     }
 
+    protected function autoregisterPublicMethods(Engine $engine): void
+    {
+        $base_methods = get_class_methods(self::class);
+        $base_methods = array_combine($base_methods, $base_methods);
+
+        $this_methods = get_class_methods($this);
+        $this_methods = array_combine($this_methods, $this_methods);
+
+        $magic_methods = [
+            '__construct'   => true,
+            '__destruct'    => true,
+            '__call'        => true,
+            '__callStatic'  => true,
+            '__get'         => true,
+            '__set'         => true,
+            '__isset'       => true,
+            '__unset'       => true,
+            '__sleep'       => true,
+            '__wakeup'      => true,
+            '__serialize'   => true,
+            '__unserialize' => true,
+            '__toString'    => true,
+            '__invoke'      => true,
+            '__set_state'   => true,
+            '__clone'       => true,
+            '__debugInfo'   => true,
+        ];
+
+        $methods = array_diff_key($this_methods, $base_methods, $magic_methods);
+
+        foreach ($methods as $method) {
+            $rm = new ReflectionMethod($this, $method);
+            if ($rm->isPublic()) {
+                $this->registerOwnFunction($engine, $method);
+            }
+        }
+    }
+
     // @codeCoverageIgnoreStart
 
     /**
@@ -102,41 +140,10 @@ abstract class Extension implements ExtensionInterface
 
     // @codeCoverageIgnoreEnd
 
-    protected function autoregisterPublicMethods(Engine $engine): void
+    protected function autoregisterExtraAliases(Engine $engine): void
     {
-        $base_methods = get_class_methods(self::class);
-        $base_methods = array_combine($base_methods, $base_methods);
-
-        $this_methods = get_class_methods($this);
-        $this_methods = array_combine($this_methods, $this_methods);
-
-        $magic_methods = [
-            '__construct'   => true,
-            '__destruct'    => true,
-            '__call'        => true,
-            '__callStatic'  => true,
-            '__get'         => true,
-            '__set'         => true,
-            '__isset'       => true,
-            '__unset'       => true,
-            '__sleep'       => true,
-            '__wakeup'      => true,
-            '__serialize'   => true,
-            '__unserialize' => true,
-            '__toString'    => true,
-            '__invoke'      => true,
-            '__set_state'   => true,
-            '__clone'       => true,
-            '__debugInfo'   => true,
-        ];
-
-        $methods = array_diff_key($this_methods, $base_methods, $magic_methods);
-
-        foreach ($methods as $method) {
-            $rm = new ReflectionMethod($this, $method);
-            if ($rm->isPublic()) {
-                $this->registerOwnFunction($engine, $method);
-            }
+        foreach ($this->aliases as $alias => $name) {
+            $this->registerAlias($engine, $alias, $name, true);
         }
     }
 
@@ -172,13 +179,6 @@ abstract class Extension implements ExtensionInterface
     public function addAlias(string $alias, string $name): void
     {
         $this->aliases[$alias] = $name;
-    }
-
-    protected function autoregisterExtraAliases(Engine $engine): void
-    {
-        foreach ($this->aliases as $alias => $name) {
-            $this->registerAlias($engine, $alias, $name, true);
-        }
     }
 
     /**
