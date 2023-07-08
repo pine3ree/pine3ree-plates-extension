@@ -39,7 +39,7 @@ abstract class Extension implements ExtensionInterface
      *
      * - <code>$this->registerFunctions(Engine $engine)</code>
      * - <code>$this->registerAliases(Engine $engine)</code>
-     * - <code>$this->registerExtraAliases(Engine $engine)</code>
+     * - <code>$this->autoregisterExtraAliases(Engine $engine)</code>
      *
      * in order to register function, own methods as template functions and aliases
      *
@@ -53,7 +53,7 @@ abstract class Extension implements ExtensionInterface
         $this->registerFunctions($engine);
         $this->registerAliases($engine);
         if (!empty($this->aliases)) {
-            $this->registerExtraAliases($engine);
+            $this->autoregisterExtraAliases($engine);
         }
     }
 
@@ -155,7 +155,7 @@ abstract class Extension implements ExtensionInterface
         $this->aliases[$alias] = $name;
     }
 
-    protected function registerExtraAliases(Engine $engine)
+    protected function autoregisterExtraAliases(Engine $engine)
     {
         foreach ($this->aliases as $alias => $name) {
             $this->registerAlias($engine, $alias, $name, true);
