@@ -67,12 +67,12 @@ abstract class Extension implements ExtensionInterface
      * or let the default implementation register all public methods not defined
      * in the base abstract class and excluding magic methods
      */
-    protected function registerFunctions(Engine $engine)
+    protected function registerFunctions(Engine $engine): void
     {
         $this->autoregisterPublicMethods($engine);
     }
 
-    protected function autoregisterPublicMethods(Engine $engine)
+    protected function autoregisterPublicMethods(Engine $engine): void
     {
         $base_methods = get_class_methods(self::class);
         $base_methods = array_combine($base_methods, $base_methods);
@@ -116,7 +116,7 @@ abstract class Extension implements ExtensionInterface
      *
      * @param Engine $engine
      */
-    protected function registerAliases(Engine $engine)
+    protected function registerAliases(Engine $engine): void
     {
         // no-op by default, override to set aliases
     }
@@ -129,7 +129,7 @@ abstract class Extension implements ExtensionInterface
      * @param string $name The name of a registered function (existence check can be skipped if not needed)
      * @param bool $check Check that the aliased function is registered?
      */
-    protected function registerAlias(Engine $engine, string $alias, string $name, bool $check = false)
+    protected function registerAlias(Engine $engine, string $alias, string $name, bool $check = false): void
     {
         if ($check === false || $engine->doesFunctionExist($name)) {
             $engine->registerFunction($alias, $engine->getFunction($name)->getCallback());
@@ -150,12 +150,12 @@ abstract class Extension implements ExtensionInterface
      * @param string $alias The function alias
      * @param string $name The target template function name
      */
-    public function addAlias(string $alias, string $name)
+    public function addAlias(string $alias, string $name): void
     {
         $this->aliases[$alias] = $name;
     }
 
-    protected function autoregisterExtraAliases(Engine $engine)
+    protected function autoregisterExtraAliases(Engine $engine): void
     {
         foreach ($this->aliases as $alias => $name) {
             $this->registerAlias($engine, $alias, $name, true);
@@ -171,7 +171,7 @@ abstract class Extension implements ExtensionInterface
      * @param string $method The name of the method to register
      * @param string $name The name of the template function if different from the method name
      */
-    protected function registerOwnFunction(Engine $engine, string $method, string $name = null)
+    protected function registerOwnFunction(Engine $engine, string $method, string $name = null): void
     {
         $engine->registerFunction($name ?? $method, [$this, $method]);
     }
