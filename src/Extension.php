@@ -63,6 +63,8 @@ abstract class Extension implements ExtensionInterface
         }
     }
 
+    // @codeCoverageIgnoreStart
+
     /**
      * Register your functions here by calling:
      *
@@ -77,6 +79,28 @@ abstract class Extension implements ExtensionInterface
     {
         // no-op by default, override to manually register template functions
     }
+
+    /**
+     * Register your aliases here by calling the following function for each alias:
+     *
+     * <code>
+     * $this->registerAlias($engine, 'myAlias', 'registeredFunctionName');
+     * </code>
+     *
+     * Note:
+     *
+     * For each registered alias a <code>@method<code> entry should be added to
+     * the extension class main php-doc block in order to achieve full ide
+     * autocompletion inside template files
+     *
+     * @param Engine $engine
+     */
+    protected function registerAliases(Engine $engine): void
+    {
+        // no-op by default, override to set aliases
+    }
+
+    // @codeCoverageIgnoreEnd
 
     protected function autoregisterPublicMethods(Engine $engine): void
     {
@@ -114,26 +138,6 @@ abstract class Extension implements ExtensionInterface
                 $this->registerOwnFunction($engine, $method);
             }
         }
-    }
-
-    /**
-     * Register your aliases here by calling the following function for each alias:
-     *
-     * <code>
-     * $this->registerAlias($engine, 'myAlias', 'registeredFunctionName');
-     * </code>
-     *
-     * Note:
-     *
-     * For each registered alias a <code>@method<code> entry should be added to
-     * the extension class main php-doc block in order to achieve full ide
-     * autocompletion inside template files
-     *
-     * @param Engine $engine
-     */
-    protected function registerAliases(Engine $engine): void
-    {
-        // no-op by default, override to set aliases
     }
 
     /**
