@@ -1,5 +1,5 @@
 {
-    "name": "pine3ree/p3-plates-extension",
+    "name": "pine3ree/pine3ree-plates-extension",
     "description": "A common base abstract Plates extension with methods auto-registration and more",
     "type": "library",
     "keywords": [
