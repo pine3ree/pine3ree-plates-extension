@@ -21,6 +21,9 @@ abstract class Extension implements ExtensionInterface
     /** Assigned on registered function calls */
     public ?Template $template = null;
 
+    /** Autoregister all public methods during extension registration? */
+    protected bool $autoregisterPublicMethods = true;
+
     /**
      * Template function aliases
      *
@@ -50,6 +53,9 @@ abstract class Extension implements ExtensionInterface
      */
     public function register(Engine $engine)
     {
+        if ($this->autoregisterPublicMethods) {
+            $this->autoregisterPublicMethods($engine);
+        }
         $this->registerFunctions($engine);
         $this->registerAliases($engine);
         if (!empty($this->aliases)) {
@@ -69,7 +75,6 @@ abstract class Extension implements ExtensionInterface
      */
     protected function registerFunctions(Engine $engine): void
     {
-        $this->autoregisterPublicMethods($engine);
     }
 
     protected function autoregisterPublicMethods(Engine $engine): void
