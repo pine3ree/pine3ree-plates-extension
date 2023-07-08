@@ -80,18 +80,27 @@ abstract class Extension implements ExtensionInterface
         $this_methods = get_class_methods($this);
         $this_methods = array_combine($this_methods, $this_methods);
 
-        $methods = array_diff_key($this_methods, $base_methods);
+        $magic_methods = [
+            '__construct' => true,
+            '__destruct' => true,
+            '__call' => true,
+            '__callStatic' => true,
+            '__get' => true,
+            '__set' => true,
+            '__isset' => true,
+            '__unset' => true,
+            '__sleep' => true,
+            '__wakeup' => true,
+            '__serialize' => true,
+            '__unserialize' => true,
+            '__toString' => true,
+            '__invoke' => true,
+            '__set_state' => true,
+            '__clone' => true,
+            '__debugInfo' => true,
+        ];
 
-        // Remove magic methods, just in case
-        unset(
-            $methods['__construct'],
-            $methods['__destruct'],
-            $methods['__get'],
-            $methods['__set'],
-            $methods['__isset'],
-            $methods['__clone'],
-            $methods['__toString'],
-        );
+        $methods = array_diff_key($this_methods, $base_methods, $magic_methods);
 
         foreach ($methods as $method) {
             $rm = new ReflectionMethod($this, $method);
