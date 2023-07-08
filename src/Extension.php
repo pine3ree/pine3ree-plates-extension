@@ -165,6 +165,8 @@ abstract class Extension implements ExtensionInterface
     /**
      * Registers a public method as a plates template function with same or different name
      *
+     * Note: it does not check if the chosen method is public, make sure it is
+     *
      * @param Engine $engine The plates engine
      * @param string $method The name of the method to register
      * @param string $name The name of the template function if different from the method name
