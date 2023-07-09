@@ -8,7 +8,7 @@
         "template",
         "extension"
     ],
-    "homepage": "https://github.com/pine3ree/p3-plates-extension",
+    "homepage": "https://github.com/pine3ree/pine3ree-plates-extension",
     "readme": "README.md",
     "license": "BSD-3-Clause",
     "authors": [
@@ -19,9 +19,9 @@
         }
     ],
     "support": {
-        "docs": "https://github.com/pine3ree/p3-plates-extension/README.md",
-        "issues": "https://github.com/pine3ree/p3-plates-extension/issues",
-        "source": "https://github.com/pine3ree/p3-plates-extension"
+        "docs": "https://github.com/pine3ree/pine3ree-plates-extension/README.md",
+        "issues": "https://github.com/pine3ree/pine3ree-plates-extension/issues",
+        "source": "https://github.com/pine3ree/pine3ree-plates-extension"
     },
     "config": {
         "sort-packages": true,
