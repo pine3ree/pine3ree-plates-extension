@@ -30,10 +30,29 @@ final class ExtensionTest extends TestCase
         $this->template  = new Template($this->engine, 'template');
     }
 
-    public function testThatPublicMethodsAreAutomaticallyRegistered(): void
+    /**
+     * Return an test array of arrays whose elements, in order, are:
+     *
+     * - an extension public method name
+     * - its return value
+     * - a registered alias
+     *
+     * @return array<int, array>
+     */
+    public function providePublicMethods(): array
     {
-        self::assertTrue($this->engine->doesFunctionExist('somethingPublic'));
-        self::assertTrue($this->engine->doesFunctionExist('somethingElse'));
+        return [
+            ['somethingPublic', DummyExtension::SOMETHING_PUBLIC, 'public'],
+            ['somethingElse',   DummyExtension::SOMETHING_ELSE,   'else'],
+        ];
+    }
+
+    /**
+     * @dataProvider providePublicMethods
+     */
+    public function testThatPublicMethodsAreAutomaticallyRegistered(string $publicMethod): void
+    {
+        self::assertTrue($this->engine->doesFunctionExist($publicMethod));
     }
 
     public function testThatNotPublicMethodsAreNotAutomaticallyRegistered(): void
@@ -42,55 +61,75 @@ final class ExtensionTest extends TestCase
         self::assertFalse($this->engine->doesFunctionExist('somethingPrivate'));
     }
 
-    public function testThatMagicMethodsAreNotAutomaticallyRegistered(): void
+    public function provideMagicMethods(): array
     {
-        self::assertFalse($this->engine->doesFunctionExist('__construct'));
-        self::assertFalse($this->engine->doesFunctionExist('__destruct'));
-        self::assertFalse($this->engine->doesFunctionExist('__call'));
-        self::assertFalse($this->engine->doesFunctionExist('__callStatic'));
-        self::assertFalse($this->engine->doesFunctionExist('__get'));
-        self::assertFalse($this->engine->doesFunctionExist('__set'));
-        self::assertFalse($this->engine->doesFunctionExist('__isset'));
-        self::assertFalse($this->engine->doesFunctionExist('__unset'));
-        self::assertFalse($this->engine->doesFunctionExist('__sleep'));
-        self::assertFalse($this->engine->doesFunctionExist('__wakeup'));
-        self::assertFalse($this->engine->doesFunctionExist('__serialize'));
-        self::assertFalse($this->engine->doesFunctionExist('__unserialize'));
-        self::assertFalse($this->engine->doesFunctionExist('__toString'));
-        self::assertFalse($this->engine->doesFunctionExist('__invoke'));
-        self::assertFalse($this->engine->doesFunctionExist('__set_state'));
-        self::assertFalse($this->engine->doesFunctionExist('__clone'));
-        self::assertFalse($this->engine->doesFunctionExist('__debugInfo'));
+        return [
+            ['__construct'],
+            ['__destruct' ],
+            ['__call'     ],
+            ['__callStatic'],
+            ['__get'      ],
+            ['__set'      ],
+            ['__isset'    ],
+            ['__unset'    ],
+            ['__sleep'    ],
+            ['__wakeup'   ],
+            ['__serialize'],
+            ['__unserialize'],
+            ['__toString' ],
+            ['__invoke'   ],
+            ['__set_state'],
+            ['__clone'    ],
+            ['__debugInfo'],
+        ];
     }
 
-    public function testThatAliasesAreRegistered(): void
+    /**
+     * @dataProvider provideMagicMethods
+     */
+    public function testThatMagicMethodsAreNotAutomaticallyRegistered(string $magicMethod): void
     {
-        self::assertTrue($this->engine->doesFunctionExist('public'));
-        self::assertTrue($this->engine->doesFunctionExist('else'));
+        self::assertFalse($this->engine->doesFunctionExist($magicMethod));
     }
 
-    public function testThatAutomaticallyRegisterdMethodsAreCallableAndReturnExpectedValues(): void
-    {
-        $somethingPublicFunc = $this->engine->getFunction('somethingPublic');
-        $somethingElseFunc   = $this->engine->getFunction('somethingElse');
+    /**
+     * @dataProvider providePublicMethods
+     */
+    public function testThatAutomaticallyRegisterdMethodsAreCallableAndReturnExpectedValues(
+        string $publicMethod,
+        string $returnValue
+    ): void {
+        $func = $this->engine->getFunction($publicMethod);
 
-        self::assertInstanceOf(Func::class, $somethingPublicFunc);
-        self::assertInstanceOf(Func::class, $somethingElseFunc);
+        self::assertInstanceOf(Func::class, $func);
 
-        $somethingPublicCallback = $somethingPublicFunc->getCallback();
-        $somethingElseCallback   = $somethingElseFunc->getCallback();
+        $callback = $func->getCallback();
 
-        self::assertIsCallable($somethingPublicCallback);
-        self::assertIsCallable($somethingElseCallback);
-
-        self::assertSame(DummyExtension::SOMETHING_PUBLIC, $somethingPublicCallback());
-        self::assertSame(DummyExtension::SOMETHING_ELSE,   $somethingElseCallback());
+        self::assertIsCallable($callback);
+        self::assertSame($returnValue, $callback());
     }
 
-    public function testThatAutomaticallyRegisterdMethodsAreCallableInTemplatesAndReturnExpectedValues(): void
-    {
-        self::assertSame(DummyExtension::SOMETHING_PUBLIC, $this->template->somethingPublic());
-        self::assertSame(DummyExtension::SOMETHING_ELSE,   $this->template->somethingElse());
+    /**
+     * @dataProvider providePublicMethods
+     */
+    public function testThatAutomaticallyRegisterdMethodsAreCallableInTemplatesAndReturnExpectedValues(
+        string $publicMethod,
+        string $returnValue
+    ): void {
+        self::assertSame($returnValue, $this->template->{$publicMethod}());
+    }
+
+    /**
+     * @dataProvider providePublicMethods
+     */
+    public function testThatAliasesAreRegisteredAndReturnExpectedValues(
+        string $publicMethod,
+        string $returnValue,
+        string $alias
+    ): void {
+        self::assertTrue($this->engine->doesFunctionExist($alias));
+        self::assertSame($this->template->{$publicMethod}(), $this->template->{$alias}());
+        self::assertSame($returnValue, $this->template->{$alias}());
     }
 
     public function testThatRegisterOwnFunctionAddsTheAliasIfSet(): void
@@ -99,21 +138,20 @@ final class ExtensionTest extends TestCase
         self::assertSame($this->template->foo(), $this->template->bar());
     }
 
-    public function testThatPublicMethodsAreNotRegisteredIfFlagIsSetToFalse(): void
+    /**
+     * @dataProvider providePublicMethods
+     */
+    public function testThatPublicMethodsAreNotRegisteredIfFlagIsSetToFalse(string $publicMethod): void
     {
         $engine    = new Engine(vfsStream::url('templates'));
         $extension = new DummyExtension(false);
         $extension->register($engine);
         $template  = new Template($engine, 'template');
 
-        self::assertFalse($engine->doesFunctionExist('somethingPublic'));
-        self::assertFalse($engine->doesFunctionExist('somethingElse'));
+        self::assertFalse($engine->doesFunctionExist($publicMethod));
 
         $this->expectException(LogicException::class);
-        $template->somethingPublic();
-
-        $this->expectException(LogicException::class);
-        $template->somethingElse();
+        $template->$publicMethod();
     }
 
     public function testThatExtraAliaseCanBeAddedOnlyBeforeExtensionRegistration(): void
