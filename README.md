@@ -44,9 +44,35 @@ class MyCoolExtension implements ExtensionInterface
 }
 
 ```
+You can reqrite previous code as:
+
 
 This provides the advantage of easily achieving ide-autocompletion inside your
 php templates just by type-hinting the keyword `$this`
+```php
+<?php
+
+namespace my\App\Plates;
+
+use League\Plates\Extension\ExtensionInterface
+use pine3ree\Plates\Extension
+
+class MyCoolExtension extends Extension implements ExtensionInterface
+{
+    public method foo(string $bar): string
+    {
+        return 'foo' . $bar;
+    }
+
+    public method baz(string $bar): string
+    {
+        return $bar . 'baz';
+    }
+
+    //...
+}
+
+```
 
 ```php
 <?php
@@ -142,6 +168,7 @@ class MyCoolExtension implements ExtensionInterface
         $this->registerAlias($engine, 'uc', 'toUppercase');
     }
 }
+
 ```
 
 ## Registering aliases without subclassing
@@ -170,6 +197,7 @@ $otherExtension->addAlias('ds', 'doSomething');
 $otherExtension->addAlias('dse', 'doSomethingElse');
 
 $plates->loadExtension($otherExtension);
+
 ```
 
 // The aliases added using `addAlias($alias, $funcName)` are actually registered
