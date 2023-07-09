@@ -106,8 +106,8 @@ final class ExtensionTest extends TestCase
         $extension->register($engine);
         $template  = new Template($engine, 'template');
 
-        self::assertFalse($engine->doesFunctionExist('somethingProtected'));
-        self::assertFalse($engine->doesFunctionExist('somethingPrivate'));
+        self::assertFalse($engine->doesFunctionExist('somethingPublic'));
+        self::assertFalse($engine->doesFunctionExist('somethingElse'));
 
         $this->expectException(LogicException::class);
         $template->somethingPublic();
