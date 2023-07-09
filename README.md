@@ -207,7 +207,8 @@ internal registration of aliases. See `Extension::register(Engine $engine)` sour
 
 ## Installation
 
-This library requires PHP >= 7.4
+This library requires `php >= 7.4`
+
 Run the following to install it:
 
 ```bash
