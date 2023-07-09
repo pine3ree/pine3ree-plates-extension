@@ -38,7 +38,7 @@
         "php": "^7.4 || ^8.0"
     },
     "require-dev": {
-        "bovigo/vfsstream": "^1.6.11",
+        "mikey179/vfsstream": "^1.6.11",
         "phpspec/prophecy-phpunit": "^1.1 || ^2.0",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-strict-rules": "^1.5",
