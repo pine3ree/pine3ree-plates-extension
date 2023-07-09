@@ -211,9 +211,3 @@ Run the following to install it:
 ```bash
 $ composer require pine3ree/pine3ree-plates-extension
 ```
-
-
-
-## TODO
-
-- Add github ci workflow
