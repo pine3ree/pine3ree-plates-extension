@@ -66,7 +66,7 @@
         "fix-cs": "@phpcbf",
         "cs-check": "@phpcs",
         "cs-fix": "@phpcbf",
-        "phpstan": "phpstan analyze -c phpstan.neon --xdebug",
+        "phpstan": "phpstan analyze -c phpstan.neon",
         "psalm": "psalm --shepherd --stats",
         "static-analysis": [
             "@phpstan",
