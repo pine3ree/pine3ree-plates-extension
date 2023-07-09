@@ -30,12 +30,12 @@ class MyCoolExtension implements ExtensionInterface
         $engine->registerFunction('baz', [$this, 'baz']);
     }
 
-    public method foo(string $bar): string
+    public function foo(string $bar): string
     {
         return 'foo' . $bar;
     }
 
-    public method baz(string $bar): string
+    public function baz(string $bar): string
     {
         return $bar . 'baz';
     }
@@ -56,12 +56,12 @@ use pine3ree\Plates\Extension
 
 class MyCoolExtension extends Extension implements ExtensionInterface
 {
-    public method foo(string $bar): string
+    public function foo(string $bar): string
     {
         return 'foo' . $bar;
     }
 
-    public method baz(string $bar): string
+    public function baz(string $bar): string
     {
         return $bar . 'baz';
     }
@@ -118,12 +118,12 @@ class MyCoolExtension implements ExtensionInterface
         $this->registerOwnFunction($engine, 'baz', 'doBaz');
     }
 
-    public method foo(string $bar): string
+    public function foo(string $bar): string
     {
         return 'foo' . $bar;
     }
 
-    public method baz(string $bar): string
+    public function baz(string $bar): string
     {
         return $bar . 'baz';
     }
