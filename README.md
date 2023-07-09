@@ -44,11 +44,8 @@ class MyCoolExtension implements ExtensionInterface
 }
 
 ```
-You can reqrite previous code as:
+You can rewrite previous code as:
 
-
-This provides the advantage of easily achieving ide-autocompletion inside your
-php templates just by type-hinting the keyword `$this`
 ```php
 <?php
 
