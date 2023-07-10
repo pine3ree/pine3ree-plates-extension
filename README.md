@@ -211,3 +211,121 @@ Run the following to install it:
 ```bash
 $ composer require pine3ree/pine3ree-plates-extension
 ```
+
+## the "WHY"...
+
+the "before"...
+
+```php
+<?php
+
+namespace App\Plates\Extension;
+
+// Other imports here
+use League\Plates\Engine;
+use League\Plates\Extension\ExtensionInterface;
+// Other imports here
+
+class FormExtension implements ExtensionInterface
+{
+    public function register(Engine $engine)
+    {
+        // Fieldsets/collections
+        $engine->registerFunction($engine, [$this, 'form']);
+        $engine->registerFunction($engine, [$this, 'formCollection']);
+        $engine->registerFunction($engine, [$this, 'formFieldset']);
+        $engine->registerFunction($engine, [$this, 'formLegend']);
+        // Fields
+        $engine->registerFunction($engine, [$this, 'formField']);
+        $engine->registerFunction($engine, [$this, 'formRow']);
+        $engine->registerFunction($engine, [$this, 'formLabel']);
+        $engine->registerFunction($engine, [$this, 'formElement']);
+        // Error messages
+        $engine->registerFunction($engine, [$this, 'formErrors']);
+        $engine->registerFunction($engine, [$this, 'formElementErrors']);
+        // Inputs
+        $engine->registerFunction($engine, [$this, 'formInput']);
+        $engine->registerFunction($engine, [$this, 'formCheckbox']);
+        $engine->registerFunction($engine, [$this, 'formColor']);
+        $engine->registerFunction($engine, [$this, 'formCsrf']);
+        $engine->registerFunction($engine, [$this, 'formDate']);
+        $engine->registerFunction($engine, [$this, 'formDateTime']);
+        $engine->registerFunction($engine, [$this, 'formDateTimeLocal']);
+        $engine->registerFunction($engine, [$this, 'formEmail']);
+        $engine->registerFunction($engine, [$this, 'formFile']);
+        $engine->registerFunction($engine, [$this, 'formHidden']);
+        $engine->registerFunction($engine, [$this, 'formImage']);
+        $engine->registerFunction($engine, [$this, 'formMonth']);
+        $engine->registerFunction($engine, [$this, 'formNumber']);
+        $engine->registerFunction($engine, [$this, 'formPassword']);
+        $engine->registerFunction($engine, [$this, 'formRange']);
+        $engine->registerFunction($engine, [$this, 'formReset']);
+        $engine->registerFunction($engine, [$this, 'formSearch']);
+        $engine->registerFunction($engine, [$this, 'formSubmit']);
+        $engine->registerFunction($engine, [$this, 'formText']);
+        $engine->registerFunction($engine, [$this, 'formTel']);
+        $engine->registerFunction($engine, [$this, 'formTime']);
+        $engine->registerFunction($engine, [$this, 'formUrl']);
+        $engine->registerFunction($engine, [$this, 'formWeek']);
+        // Selects
+        $engine->registerFunction($engine, [$this, 'formSelect']);
+        $engine->registerFunction($engine, [$this, 'formDateTimeSelect']);
+        $engine->registerFunction($engine, [$this, 'formDateSelect']);
+        $engine->registerFunction($engine, [$this, 'formMonthSelect']);
+        // Groups
+        $engine->registerFunction($engine, [$this, 'formRadioGroup']);
+        $engine->registerFunction($engine, [$this, 'formCheckboxGroup']);
+        $engine->registerFunction($engine, [$this, 'formRadio']);
+        $engine->registerFunction($engine, [$this, 'formMultiCheckbox']);
+        // Others
+        $engine->registerFunction($engine, [$this, 'formTextarea']);
+        $engine->registerFunction($engine, [$this, 'formButton']);
+
+        // Extension configuration helpers
+        $engine->registerFunction($engine, [$this, 'setFormExtensionDefaultClasses']);
+        $engine->registerFunction($engine, [$this, 'setFormFieldClass']);
+        $engine->registerFunction($engine, [$this, 'setFormFieldsetClass']);
+        $engine->registerFunction($engine, [$this, 'setFormControlClass']);
+        $engine->registerFunction($engine, [$this, 'setFormButtonClass']);
+        $engine->registerFunction($engine, [$this, 'setFormFieldWrap']);
+        $engine->registerFunction($engine, [$this, 'setFormLabelImplicit']);
+        $engine->registerFunction($engine, [$this, 'setFormLabelClass']);
+        $engine->registerFunction($engine, [$this, 'setFormLabelTextClass']);
+        $engine->registerFunction($engine, [$this, 'setFormCheckOptionClass']);
+        $engine->registerFunction($engine, [$this, 'setFormCheckInputClass']);
+        $engine->registerFunction($engine, [$this, 'setFormCheckLabelClass']);
+        $engine->registerFunction($engine, [$this, 'setFormRangeClass']);
+        $engine->registerFunction($engine, [$this, 'setFormSelectClass']);
+        $engine->registerFunction($engine, [$this, 'setFormGroupClass']);
+        $engine->registerFunction($engine, [$this, 'setFormDelimiterClass']);
+        $engine->registerFunction($engine, [$this, 'setFormErrorsTag']);
+        $engine->registerFunction($engine, [$this, 'setFormErrorsClass']);
+        $engine->registerFunction($engine, [$this, 'setFormFieldErrorClass']);
+        $engine->registerFunction($engine, [$this, 'setFormElementErrorClass']);
+        $engine->registerFunction($engine, [$this, 'setFormCollectionTemplate']);
+    }
+    //...
+    // Methods implementation here
+    //..
+}
+```
+
+...and the "after"
+
+```php
+<?php
+
+namespace App\Plates\Extension;
+
+// Other imports here
+use League\Plates\Extension\ExtensionInterface;
+use pine3ree\Plates\Extension;
+// Other imports here
+
+class FormExtension extends Extension implements ExtensionInterface
+{
+    //...
+    // Methods implementation here
+    //..
+}
+```
