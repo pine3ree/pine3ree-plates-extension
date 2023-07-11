@@ -206,7 +206,7 @@ internal registration of aliases. See `Extension::register(Engine $engine)` sour
 
 This library requires `php >= 7.4`
 
-Run the following to install it:
+Run the following shell command in your project directory to install it:
 
 ```bash
 $ composer require pine3ree/pine3ree-plates-extension
