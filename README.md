@@ -199,8 +199,8 @@ $plates->loadExtension($otherExtension);
 
 The aliases added using `addAlias($alias, $funcName)` are actually registered
 when the extensions is loaded by the plates engine, after automatic registration
-of public method, after the registration of extra methods and after the extension of
-internal registration of aliases. See `Extension::register(Engine $engine)` source code.
+of public method, after the registration of extra methods and after the registration
+of internally defined aliases. See `Extension::register(Engine $engine)` source code.
 
 ## Installation
 
