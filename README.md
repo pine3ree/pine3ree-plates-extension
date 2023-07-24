@@ -102,8 +102,14 @@ class MyCoolExtension implements ExtensionInterface
     // 1. Disable via class property override
     protected bool $autoregisterPublicMethods = false;
     
-    // 2. Disable via constructor
+    // 2.a Disable via constructor
     public function __construct()
+    {
+        $this->autoregisterPublicMethods = false;
+    }
+
+    // 2.b Customize via constructor (for factories reading configuration)
+    public function __construct(bool $autoregisterPublicMethods)
     {
         $this->autoregisterPublicMethods = $autoregisterPublicMethods;
     }
