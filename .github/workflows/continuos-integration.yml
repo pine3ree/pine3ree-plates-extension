@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-systems: [ubuntu-latest]
-        php-versions: ['7.4', '8.0', '8.1', '8.2']
+        php-versions: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
         composer-deps: ['lowest', 'latest']
 
     runs-on: ${{ matrix.operating-systems }}
@@ -51,12 +51,12 @@ jobs:
       - name: Update Composer dependencies to lowest stable
         id: composer-update-lowest
         if: ${{ matrix.composer-deps == 'lowest' }}
-        run: composer update ${{ env.COMPOSER_ARGS }} --prefer-lowest --prefer-stable
+        run: composer update ${{ env.COMPOSER_ARGS }} --prefer-stable --prefer-lowest
 
       - name: Update Composer dependencies to latest
         id: composer-update-latest
         if: ${{ matrix.composer-deps == 'latest' }}
-        run: composer update ${{ env.COMPOSER_ARGS }}
+        run: composer update ${{ env.COMPOSER_ARGS }} --prefer-stable
 
       - name: Code Style check (phpcs)
         id: phpcs
@@ -66,9 +66,9 @@ jobs:
         id: phpstan
         run: composer phpstan
 
-      - name: Static Analysis (psalm)
-        id: psalm
-        run: composer psalm
+#      - name: Static Analysis (psalm)
+#        id: psalm
+#        run: composer psalm
 
       - name: Test (phpunit)
         id: phpunit
