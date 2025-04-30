@@ -77,11 +77,11 @@ abstract class Extension implements ExtensionInterface
 
     protected function autoregisterPublicMethods(Engine $engine): void
     {
-        $base_methods = get_class_methods(self::class);
-        $base_methods = array_combine($base_methods, $base_methods);
-
         $this_methods = get_class_methods($this);
         $this_methods = array_combine($this_methods, $this_methods);
+
+        $base_methods = get_class_methods(self::class);
+        $base_methods = array_combine($base_methods, $base_methods);
 
         $magic_methods = [
             '__construct'   => true,
