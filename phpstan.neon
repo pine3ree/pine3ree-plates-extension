@@ -4,7 +4,6 @@ parameters:
         - src
     fileExtensions:
         - php
-    checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Method P3\\Plates\\Extension\:\:register\(\) has no return type specified#'
