@@ -141,8 +141,8 @@ class MyCoolExtension implements ExtensionInterface
 
 ## Registering other functions and aliases
 
-This package provides a couple of overridable methods wher you register functions
-other then your extension's public methods or aliases to registered function:
+This package provides a couple of overridable methods where you register functions
+other than your extension's public methods or aliases to registered function:
 
 ```php
 
