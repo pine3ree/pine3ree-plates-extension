@@ -183,7 +183,7 @@ abstract class Extension implements ExtensionInterface
      * Note:
      * When this method is called the function with name <code>$name</code>
      * is not already registered yet. It will be when the extension is registered
-     * whit the template engine. Calling this method after the extension is
+     * with the template engine. Calling this method after the extension is
      * registered has no effect as all the extra aliases are examined and
      * registered when the moment the extension is registered.
      *
